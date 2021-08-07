@@ -1,0 +1,10 @@
+name: LunarSoup
+version: ${project.version}
+main: me.yochran.lunarsoup.LunarSoup
+api-version: 1.16
+authors: [ Yochran ]
+description: A replica of the lunar soup core plugin.
+commands:
+  Kit:
+    description: Select a kit.
+    aliases: kits
