@@ -1,18 +1,18 @@
 package me.yochran.lunarsoup.commands;
 
-import me.yochran.lunarsoup.gui.GUI;
-import me.yochran.lunarsoup.gui.guis.KitsGUI;
-import me.yochran.lunarsoup.player.SoupPlayer;
+import me.yochran.lunarsoup.LunarSoup;
 import me.yochran.lunarsoup.utils.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class KitCommand implements CommandExecutor {
+public class CombatTagCommand implements CommandExecutor {
+
+    private final LunarSoup plugin = LunarSoup.getInstance();
 
     /**
-     * The function that's run when the /kit command is executed.
+     * Function that is run when the /ct command is executed.
      * @param sender: Command Sender
      * @param command: Command
      * @param label: Command Label
@@ -27,16 +27,15 @@ public class KitCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        SoupPlayer soupPlayer = new SoupPlayer(player);
 
-        if (soupPlayer.isTagged()) {
-            sender.sendMessage(Utils.translate("&cYou cannot use that command while in combat!"));
+        if (!plugin.combatTag.containsKey(player.getUniqueId())) {
+            player.sendMessage(Utils.translate("&aYou are not in combat."));
             return true;
         }
 
-        KitsGUI kitsGUI = new KitsGUI(player, 27, "&8Kit Selection");
-        kitsGUI.setup();
-        GUI.open(kitsGUI.getGui());
+        int tag = plugin.combatTag.get(player.getUniqueId());
+
+        sender.sendMessage(Utils.translate("&eCombat Tag: &a" + tag));
 
         return true;
     }

@@ -1,7 +1,11 @@
 package me.yochran.lunarsoup.player;
 
+import me.yochran.lunarsoup.LunarSoup;
 import me.yochran.lunarsoup.utils.ItemBuilder;
 import me.yochran.lunarsoup.utils.XMaterial;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -9,6 +13,8 @@ import org.bukkit.inventory.meta.SkullMeta;
 import java.util.ArrayList;
 
 public class PlayerManagement {
+
+    private static final LunarSoup plugin = LunarSoup.getInstance();
 
     /**
      * Give the starting items to a player.
@@ -40,5 +46,18 @@ public class PlayerManagement {
 
         player.getInventory().setItem(4, stats.getItemStack());
         player.getInventory().setItem(8, events.getItemStack());
+    }
+
+    public static void sendToSpawn(Player player) {
+        World world = Bukkit.getWorld(plugin.pluginConfig.getString("World"));
+        double X = plugin.pluginConfig.getDouble("Spawn.X");
+        double Y = plugin.pluginConfig.getDouble("Spawn.Y");
+        double Z = plugin.pluginConfig.getDouble("Spawn.Z");
+        double Yaw = plugin.pluginConfig.getDouble("Spawn.Yaw");
+        double Pitch = plugin.pluginConfig.getDouble("Spawn.Pitch");
+
+        Location location = new Location(world, X, Y, Z, (float) Yaw, (float) Pitch);
+
+        player.teleport(location);
     }
 }

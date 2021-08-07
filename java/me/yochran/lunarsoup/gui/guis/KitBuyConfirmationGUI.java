@@ -35,6 +35,8 @@ public class KitBuyConfirmationGUI extends CustomGUI {
 
         Button confirmButton = new Button(confirm.getItem(), () -> {
             GUI.close(getGui());
+
+            soupPlayer.setCredits(soupPlayer.getCredits() - kit.getPrice());
             soupPlayer.giveKit(kit);
 
             new BukkitRunnable() {

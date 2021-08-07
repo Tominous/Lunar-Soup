@@ -66,12 +66,8 @@ public class SoupPlayer {
      * Get all the player's kits.
      * @return HashSet of kits
      */
-    public Set<Kit> getKits() {
-        List<String> kits = new ArrayList<>(plugin.playerConfig.getStringList(this.getPlayer().getUniqueId().toString() + ".Kits"));
-        Set<Kit> kitsFormatted = new HashSet<>();
-
-        kits.forEach(entry -> kitsFormatted.add(KitManagement.getKit(entry)));
-        return kitsFormatted;
+    public List<String> getKits() {
+        return new ArrayList<>(plugin.playerConfig.getStringList(this.getPlayer().getUniqueId().toString() + ".Kits"));
     }
 
     /**
@@ -80,7 +76,7 @@ public class SoupPlayer {
      * @param kit: The specified kit to check.
      */
     public boolean hasKit(Kit kit) {
-        return getKits().contains(kit);
+        return getKits().contains(kit.getID());
     }
 
     /**
@@ -88,13 +84,12 @@ public class SoupPlayer {
      * @param kit: The specified kit to give
      */
     public void giveKit(Kit kit) {
-        Set<Kit> kits = new HashSet<>(getKits());
-        kits.add(kit);
+        List<String> kits = new ArrayList<>(getKits());
 
-        List<String> kitsFormatted = new ArrayList<>();
-        kits.forEach(entry -> kitsFormatted.add(kit.getID()));
+        if (!kits.contains(kit.getID()))
+            kits.add(kit.getID());
 
-        plugin.playerConfig.set(this.getPlayer().getUniqueId().toString() + ".Kits", kitsFormatted);
+        plugin.playerConfig.set(this.getPlayer().getUniqueId().toString() + ".Kits", kits);
         Config.save(ConfigManagement.getConfig("players.yml"));
     }
 
@@ -237,5 +232,29 @@ public class SoupPlayer {
         setCredits(getCredits() + player.getBounty());
         plugin.playerConfig.set("Bounty." + player.getPlayer().getUniqueId().toString(), null);
         Config.save(ConfigManagement.getConfig("players.yml"));
+    }
+
+    /**
+     * Check if a player is tagged.
+     * @return boolean
+     */
+    public boolean isTagged() {
+        return plugin.combatTag.containsKey(this.getPlayer().getUniqueId());
+    }
+
+    /**
+     * Get a player's combat tag.
+     * @return int
+     */
+    public int getTag() {
+        return plugin.combatTag.get(this.getPlayer().getUniqueId());
+    }
+
+    /**
+     * Set a player's combat tag.
+     * @param tag: The specified tag to set.
+     */
+    public void setTag(int tag) {
+        plugin.combatTag.put(this.getPlayer().getUniqueId(), tag);
     }
 }

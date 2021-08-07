@@ -2,3 +2,9 @@
 # https://github.com/Yochran
 
 World: "soup"
+Spawn:
+  X: 0.5
+  Y: 5.0
+  Z: 0.5
+  Yaw: 0.0
+  Pitch: 0.0

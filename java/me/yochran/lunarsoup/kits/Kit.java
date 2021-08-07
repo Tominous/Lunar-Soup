@@ -1,38 +1,41 @@
 package me.yochran.lunarsoup.kits;
 
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Kit {
 
     private final String ID;
     private String name;
-    private double price;
-    private Map<Integer, ItemStack> items;
+    private int price;
+    private final Map<Integer, ItemStack> items;
+    private final List<PotionEffect> effects;
 
-    public Kit(String name, int price, Map<Integer, ItemStack> items) {
+    public Map<Integer, ItemStack> getItems() { return items; }
+    public List<PotionEffect> getEffects() { return effects; }
+
+    public Kit(String name, int price) {
         this.ID = name.toUpperCase();
         this.name = name;
         this.price = price;
-        this.items = items;
+        this.items = new HashMap<>();
+        this.effects = new ArrayList<>();
 
         KitManagement.getKits().put(getID(), this);
     }
 
     public String getID() { return ID; }
     public String getName() { return name; }
-    public double getPrice() { return price; }
-    public Map<Integer, ItemStack> getItems() { return items; }
+    public int getPrice() { return price; }
 
     public void setName(String name) { this.name = name; }
     public void setPrice(int price) { this.price = price; }
-    public void setItems(Map<Integer, ItemStack> items) { this.items = items; }
 
-    public void addItem(int slot, ItemStack item) {
-        getItems().put(slot, item);
-    }
-    public void removeItem(int slot) {
-        getItems().remove(slot);
-    }
+    public void addItem(int slot, ItemStack item) { getItems().put(slot, item); }
+    public void addEffect(PotionEffect effect) { getEffects().add(effect); }
 }

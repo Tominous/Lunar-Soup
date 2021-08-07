@@ -1,7 +1,6 @@
 package me.yochran.lunarsoup.commands;
 
-import me.yochran.lunarsoup.gui.GUI;
-import me.yochran.lunarsoup.gui.guis.KitsGUI;
+import me.yochran.lunarsoup.LunarSoup;
 import me.yochran.lunarsoup.player.SoupPlayer;
 import me.yochran.lunarsoup.utils.Utils;
 import org.bukkit.command.Command;
@@ -9,10 +8,12 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class KitCommand implements CommandExecutor {
+public class SpawnCommand implements CommandExecutor {
+
+    private final LunarSoup plugin = LunarSoup.getInstance();
 
     /**
-     * The function that's run when the /kit command is executed.
+     * Function that is run when the /spawn command is executed.
      * @param sender: Command Sender
      * @param command: Command
      * @param label: Command Label
@@ -34,9 +35,10 @@ public class KitCommand implements CommandExecutor {
             return true;
         }
 
-        KitsGUI kitsGUI = new KitsGUI(player, 27, "&8Kit Selection");
-        kitsGUI.setup();
-        GUI.open(kitsGUI.getGui());
+        sender.sendMessage(Utils.translate("&7Started spawn timer..."));
+
+        plugin.spawnTimer.put(player.getUniqueId(), 5);
+        plugin.playerCoords.put(player.getUniqueId(), new Double[] { player.getLocation().getX(), player.getLocation().getZ() });
 
         return true;
     }

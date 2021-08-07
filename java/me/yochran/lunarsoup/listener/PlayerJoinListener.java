@@ -36,8 +36,7 @@ public class PlayerJoinListener implements Listener {
             SoupPlayer soupPlayer = new SoupPlayer(player);
             soupPlayer.giveKit(KitManagement.getKit("PvP"));
 
-            List<String> kits = new ArrayList<>();
-            soupPlayer.getKits().forEach(kit -> kits.add(kit.getID()));
+            List<String> kits = new ArrayList<>(soupPlayer.getKits());
 
             plugin.playerConfig.set(player.getUniqueId().toString() + ".Name", player.getName());
             plugin.playerConfig.set(player.getUniqueId().toString() + ".Credits", 0);

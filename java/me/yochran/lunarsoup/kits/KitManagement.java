@@ -1,5 +1,7 @@
 package me.yochran.lunarsoup.kits;
 
+import me.yochran.lunarsoup.kits.kits.Dwarf;
+import me.yochran.lunarsoup.kits.kits.PvP;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -18,8 +20,8 @@ public class KitManagement {
      * Register all the kits.
      */
     public static void registerKits() {
-        new Kit("PvP", 0, new HashMap<>());
-        new Kit("Dwarf", 750, new HashMap<>());
+        new PvP();
+        new Dwarf();
     }
 
     /**

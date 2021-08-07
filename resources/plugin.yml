@@ -4,6 +4,8 @@ main: me.yochran.lunarsoup.LunarSoup
 api-version: 1.16
 authors: [ Yochran ]
 description: A replica of the lunar soup core plugin.
+depend:
+  - WorldGuard
 commands:
   Kit:
     description: Select a kit.
@@ -24,3 +26,8 @@ commands:
     description: Bounty a player.
   Bounties:
     description: List top bounties.
+  Spawn:
+    description: Teleport a player to spawn.
+  CombatTag:
+    description: Get a players combat tag.
+    aliases: ct

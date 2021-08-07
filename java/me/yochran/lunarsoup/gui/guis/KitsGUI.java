@@ -76,25 +76,33 @@ public class KitsGUI extends CustomGUI {
         }
 
         GUI.close(getGui());
+        player.getInventory().clear();
 
-        for (Map.Entry<Integer, ItemStack> items : kit.getItems().entrySet()) {
-            switch (items.getKey()) {
-                case 37:
-                    player.getInventory().setHelmet(items.getValue());
-                    break;
-                case 38:
-                    player.getInventory().setChestplate(items.getValue());
-                    break;
-                case 39:
-                    player.getInventory().setLeggings(items.getValue());
-                    break;
-                case 40:
-                    player.getInventory().setBoots(items.getValue());
-                    break;
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (Map.Entry<Integer, ItemStack> items : kit.getItems().entrySet()) {
+                    switch (items.getKey()) {
+                        case 100:
+                            player.getInventory().setHelmet(items.getValue());
+                            break;
+                        case 101:
+                            player.getInventory().setChestplate(items.getValue());
+                            break;
+                        case 102:
+                            player.getInventory().setLeggings(items.getValue());
+                            break;
+                        case 103:
+                            player.getInventory().setBoots(items.getValue());
+                            break;
 
-                default: player.getInventory().setItem(items.getKey(), items.getValue());
+                        default: player.getInventory().setItem(items.getKey(), items.getValue());
+                    }
+                }
+
+                kit.getEffects().forEach(player::addPotionEffect);
             }
-        }
+        }.runTaskLater(plugin, 1);
 
         player.sendMessage(Utils.translate("&eYou have received the &d" + kit.getName() + " &ekit."));
     }

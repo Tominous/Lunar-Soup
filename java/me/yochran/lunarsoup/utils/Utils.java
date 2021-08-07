@@ -1,12 +1,12 @@
 package me.yochran.lunarsoup.utils;
 
-import me.yochran.lunarsoup.player.SoupPlayer;
+import me.yochran.lunarsoup.LunarSoup;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
-import java.util.*;
-
 public class Utils {
+
+    private static final LunarSoup plugin = LunarSoup.getInstance();
 
     /**
      * Function to translate a message's color codes.
