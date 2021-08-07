@@ -8,3 +8,19 @@ commands:
   Kit:
     description: Select a kit.
     aliases: kits
+  Stats:
+    description: Get a players stats.
+    aliases: pvpstats
+  Balance:
+    description: Get a players balance.
+    aliases: [bal, credits]
+  GiveCredits:
+    description: Give a player an amount of credits.
+    aliases: gc
+  TakeCredits:
+    description: Remove an amount of credits from a player.
+    aliases: [tc, removecredits, rc]
+  Bounty:
+    description: Bounty a player.
+  Bounties:
+    description: List top bounties.

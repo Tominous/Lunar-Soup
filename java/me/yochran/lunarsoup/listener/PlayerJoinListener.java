@@ -40,9 +40,13 @@ public class PlayerJoinListener implements Listener {
             soupPlayer.getKits().forEach(kit -> kits.add(kit.getID()));
 
             plugin.playerConfig.set(player.getUniqueId().toString() + ".Name", player.getName());
-            plugin.playerConfig.set(player.getUniqueId().toString() + ".Credits", 0.0);
+            plugin.playerConfig.set(player.getUniqueId().toString() + ".Credits", 0);
             plugin.playerConfig.set(player.getUniqueId().toString() + ".PreviousKit", "NONE");
             plugin.playerConfig.set(player.getUniqueId().toString() + ".Kits", kits);
+            plugin.playerConfig.set(player.getUniqueId().toString() + ".Kills", 0);
+            plugin.playerConfig.set(player.getUniqueId().toString() + ".Deaths", 0);
+            plugin.playerConfig.set(player.getUniqueId().toString() + ".Streak", 0);
+            plugin.playerConfig.set(player.getUniqueId().toString() + ".HighestStreak", 0);
             Config.save(ConfigManagement.getConfig("players.yml"));
         }
 

@@ -47,10 +47,19 @@ public class SoupPlayer {
 
     /**
      * Get the player's amount of credits.
-     * @return double
+     * @return int
      */
-    public double getCredits() {
-        return plugin.playerConfig.getDouble(this.getPlayer().getUniqueId().toString() + ".Credits");
+    public int getCredits() {
+        return plugin.playerConfig.getInt(this.getPlayer().getUniqueId().toString() + ".Credits");
+    }
+
+    /**
+     * Set a players amount of credits.
+     * @param credits: The specified amount to set to.
+     */
+    public void setCredits(int credits) {
+        plugin.playerConfig.set(this.getPlayer().getUniqueId().toString() + ".Credits", credits);
+        Config.save(ConfigManagement.getConfig("players.yml"));
     }
 
     /**
@@ -86,6 +95,147 @@ public class SoupPlayer {
         kits.forEach(entry -> kitsFormatted.add(kit.getID()));
 
         plugin.playerConfig.set(this.getPlayer().getUniqueId().toString() + ".Kits", kitsFormatted);
+        Config.save(ConfigManagement.getConfig("players.yml"));
+    }
+
+    /**
+     * Get the amount of kills a player has.
+     * @return int
+     */
+    public int getKills() {
+        return plugin.playerConfig.getInt(this.getPlayer().getUniqueId().toString() + ".Kills");
+    }
+
+    /**
+     * Get the amount of deaths a player has.
+     * @return int
+     */
+    public int getDeaths() {
+        return plugin.playerConfig.getInt(this.getPlayer().getUniqueId().toString() + ".Deaths");
+    }
+
+    /**
+     * Get the amount of deaths a player has.
+     * @return int
+     */
+    public int getStreak() {
+        return plugin.playerConfig.getInt(this.getPlayer().getUniqueId().toString() + ".Streak");
+    }
+
+    /**
+     * Get the amount of deaths a player has.
+     * @return int
+     */
+    public int getHighestStreak() {
+        return plugin.playerConfig.getInt(this.getPlayer().getUniqueId().toString() + ".HighestStreak");
+    }
+
+    /**
+     * Check if a players current streak is higher than their previous highest streak.
+     * @return boolean
+     */
+    public boolean isHighestStreak() {
+        return getStreak() > getHighestStreak();
+    }
+
+    /**
+     * Get a players KDR.
+     * @return double
+     */
+    public double getKDR() {
+        int kills = getKills();
+        int deaths;
+
+        if (kills == 0) deaths = 1;
+        else deaths = getDeaths();
+
+        return (double) kills / (double) deaths;
+    }
+
+    /**
+     * Add a kill to the player.
+     */
+    public void addKill() {
+        plugin.playerConfig.set(this.getPlayer().getUniqueId().toString() + ".Kills", getKills() + 1);
+        Config.save(ConfigManagement.getConfig("players.yml"));
+    }
+
+    /**
+     * Add a death to the player.
+     */
+    public void addDeath() {
+        plugin.playerConfig.set(this.getPlayer().getUniqueId().toString() + ".Deaths", getDeaths() + 1);
+        Config.save(ConfigManagement.getConfig("players.yml"));
+    }
+
+    /**
+     * End a player's streak.
+     */
+    public void endStreak() {
+        plugin.playerConfig.set(this.getPlayer().getUniqueId().toString() + ".Streak", 0);
+        Config.save(ConfigManagement.getConfig("players.yml"));
+    }
+
+    /**
+     * Add a kill to a players current kill streak.
+     */
+    public void addKillToStreak() {
+        plugin.playerConfig.set(this.getPlayer().getUniqueId().toString() + ".Streak", getStreak() + 1);
+
+        if (isHighestStreak())
+            setHighestStreak();
+
+        Config.save(ConfigManagement.getConfig("players.yml"));
+    }
+
+    /**
+     * Set a players highest streak to their current streak.
+     */
+    public void setHighestStreak() {
+        plugin.playerConfig.set(this.getPlayer().getUniqueId().toString() + ".Streak", getStreak());
+        Config.save(ConfigManagement.getConfig("players.yml"));
+    }
+
+    /**
+     * Checks if a player is bountied.
+     * @return boolean
+     */
+    public boolean isBountied() {
+        return plugin.playerConfig.contains("Bounty") && plugin.playerConfig.contains("Bounty." + this.getPlayer().getUniqueId().toString());
+    }
+
+    /**
+     * Gets a player's bounty.
+     * @return int
+     */
+    public int getBounty() {
+        return plugin.playerConfig.getInt("Bounty." + this.getPlayer().getUniqueId().toString() + ".Amount");
+    }
+
+    /**
+     * Set a player's bounty.
+     * @param amount: The specified amount to set.
+     */
+    public void setBounty(int amount) {
+        plugin.playerConfig.set("Bounty." + this.getPlayer().getUniqueId().toString() + ".Amount", amount);
+        Config.save(ConfigManagement.getConfig("players.yml"));
+    }
+
+    /**
+     * Increase a player's bounty.
+     * @param amount: The specified amount to increase by.
+     */
+    public void increaseBounty(int amount) {
+        setBounty(getBounty() + amount);
+    }
+
+    /**
+     * Claim a player's bounty.
+     * @param player: The specified player whose bounty is to be claimed.
+     */
+    public void claimBounty(SoupPlayer player) {
+        setCredits(getCredits() + player.getBounty());
+        plugin.playerConfig.set("Bounty." + player.getPlayer().getUniqueId().toString(), null);
         Config.save(ConfigManagement.getConfig("players.yml"));
     }
 }

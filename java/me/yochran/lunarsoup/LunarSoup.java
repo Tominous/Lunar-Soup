@@ -1,10 +1,11 @@
 package me.yochran.lunarsoup;
 
-import me.yochran.lunarsoup.commands.KitCommand;
+import me.yochran.lunarsoup.commands.*;
 import me.yochran.lunarsoup.configuration.Config;
 import me.yochran.lunarsoup.configuration.ConfigManagement;
 import me.yochran.lunarsoup.kits.KitManagement;
 import me.yochran.lunarsoup.listener.InventoryClickListener;
+import me.yochran.lunarsoup.listener.PlayerDeathListener;
 import me.yochran.lunarsoup.listener.PlayerInteractListener;
 import me.yochran.lunarsoup.listener.PlayerJoinListener;
 import me.yochran.lunarsoup.utils.Utils;
@@ -67,7 +68,8 @@ public final class LunarSoup extends JavaPlugin {
         Arrays.asList(
                 new InventoryClickListener(),
                 new PlayerJoinListener(),
-                new PlayerInteractListener()
+                new PlayerInteractListener(),
+                new PlayerDeathListener()
         ).forEach(listener -> pluginManager.registerEvents(listener, this));
     }
 
@@ -76,5 +78,11 @@ public final class LunarSoup extends JavaPlugin {
      */
     private void registerCommands() {
         getCommand("Kit").setExecutor(new KitCommand());
+        getCommand("Stats").setExecutor(new StatsCommand());
+        getCommand("Balance").setExecutor(new BalanceCommand());
+        getCommand("GiveCredits").setExecutor(new CreditManagementCommands());
+        getCommand("TakeCredits").setExecutor(new CreditManagementCommands());
+        getCommand("Bounty").setExecutor(new BountyCommand());
+        getCommand("Bounties").setExecutor(new BountiesCommand());
     }
 }
